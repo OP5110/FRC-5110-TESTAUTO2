@@ -13,7 +13,7 @@ import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -29,7 +29,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.autoShoot;
+
+import frc.robot.commands.IntakeCommands.autoIntake;
+import frc.robot.commands.ShooterCommands.autoShooter;
+
+
 import frc.robot.commands.swervedrive.auto.BasicAuto;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -65,7 +69,7 @@ public class RobotContainer
   XboxController driverXbox2 = new XboxController(1);
   XboxController driverXbox = new XboxController(0);
 
-  private final Command m_autoShootnote = BasicAuto.shootNote_pos3(drivebase, m_shooter, m_intake, m_conv);
+ // private final Command m_autoShootnote = BasicAuto.shootNote_pos3(drivebase, m_shooter, m_intake, m_conv);
 //private final Command m_autoArm_test = BasicAuto.arm_test(drivebase, m_shooter, m_intake, m_conv);
 
 
@@ -112,7 +116,7 @@ public class RobotContainer
     // Shooter, LT & RT
     Constants.operatorController.x().whileTrue(m_shooter.runShooter(-1))
       .whileFalse(m_shooter.runShooter(0));
-      Constants.operatorController.start().onTrue(new autoShoot(m_shooter));
+     // Constants.operatorController.start().onTrue(new autoShoot(m_shooter));
 
 
     // Default stuff remove eventually
@@ -126,15 +130,32 @@ public class RobotContainer
   
   public void configurePathPlanner() {
     // Conv
-    NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
-    NamedCommands.registerCommand("stopConv", m_conv.stopConv());
-    NamedCommands.registerCommand("auton shoot", new autoShoot(m_shooter));
+    //NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
+    //NamedCommands.registerCommand("stopConv", m_conv.stopConv());
+    //NamedCommands.registerCommand("auton shoot", new autoShoot(m_shooter));
+   
+
+    //new ones
+    //Need to see if these work, if so evaluate if we need to break them down further,
+    // EX. Stopshooter, setspeed, etc...
     // Intake
-    NamedCommands.registerCommand("runIntake", m_intake.autoRunIntake());
-    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
+      
+
+    NamedCommands.registerCommand("runIntake", new autoIntake(m_intake));
+
+    // Shooter 
+    NamedCommands.registerCommand("runShooter", new autoShooter(m_shooter));
+
+    
+
+
+   // NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
+
+   // NamedCommands.registerCommand("runIntake", m_intake.autoRunIntake());
+   // NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
     // Shooter
-    NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRunv1());
-    NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
+   // NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRunv1());
+   // NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
 
     drivebase.setupPathPlanner();
   }

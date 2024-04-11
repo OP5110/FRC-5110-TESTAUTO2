@@ -16,7 +16,9 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor = new CANSparkMax(16, MotorType.kBrushless);
         shooterMotor2 = new CANSparkMax(17, MotorType.kBrushless);
         shooterMotor.restoreFactoryDefaults();
-        shooterMotor.setIdleMode(IdleMode.kBrake);
+        shooterMotor2.restoreFactoryDefaults();
+
+       // shooterMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public Command runShooter(double speed){

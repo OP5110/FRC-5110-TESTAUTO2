@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ShooterCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.Conv.ConvSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Shooter.ShooterSubsystem;
 
-public class autoArm extends Command {
-  /** Creates a new autoArm. */
-  ConvSubsystem m_ConvSubsystem;
+public class autoShooter extends Command {
+  ShooterSubsystem m_ShooterSubsystem;
   Timer timer;
 
-  public autoArm(ConvSubsystem convSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_ConvSubsystem = convSubsystem;
+  // Timer
+  /** Creates a new AutoShoot. */
+  public autoShooter(ShooterSubsystem shooterSubsystem) {
+    this.m_ShooterSubsystem = shooterSubsystem;
     timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_ConvSubsystem);
+    addRequirements(m_ShooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -31,19 +31,19 @@ public class autoArm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ConvSubsystem.runConv(.5);
+    m_ShooterSubsystem.runShooter(-1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ConvSubsystem.stopConv();
+    m_ShooterSubsystem.stopShooter();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.get() > 2.5) {
+    if (timer.get() > 2) {
       return true; //causes the command to end if the timer is greater than 2 seconds
     }
     else {
